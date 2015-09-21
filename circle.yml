@@ -1,0 +1,25 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - docker build -t gaiaadm/agm-issue-change-processor:$BUILD_TAG .
+test:
+  override:
+    # prepare RabbitMQ for testing the processor
+    - docker run -d -e RABBITMQ_PASS="admin" --name rabbitmq gaiaadm/rabbitmq; sleep 10
+    # run jshint
+    - docker run --name jshint-runner gaiaadm/agm-issue-change-processor:$BUILD_TAG grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js jshint
+    # run unit tests
+    - docker run -e AMQ_USER="admin" -e AMQ_PASSWORD="admin" -v "/tmp:/upload" --link rabbitmq:amqserver --name unit-test-runner gaiaadm/agm-issue-change-processor:$BUILD_TAG grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js unit
+    - docker cp unit-test-runner:/src/processors/agm-issue-change-processor/unit-test-results.xml $CIRCLE_TEST_REPORTS/nodejs
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push gaiaadm/agm-issue-change-processor
+general:
+  branches:
+    only:
+      - master

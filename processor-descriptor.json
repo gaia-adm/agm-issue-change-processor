@@ -1,0 +1,5 @@
+{
+  "name": "agm/issue/change",
+  "command": "node processor.js",
+  "consumes" : [{"dataType": "agm/issue/change"}]
+}
