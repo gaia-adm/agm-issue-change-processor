@@ -9,7 +9,7 @@ exitOnSignal('SIGTERM');
 
 if (Object.keys(params).length > 0) {
     // custom metadata keys are prefixed with C_
-    console.error(' LOCATION: ' + params.C_agm_LOCATION);
+    console.error(' LOCATION: ' + params.C_AGM_LOCATION);
     console.error(' DOMAIN: ' + params.C_DOMAIN);
     console.error(' PROJECT: ' + params.C_PROJECT);
 } else {
