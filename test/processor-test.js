@@ -25,8 +25,7 @@ describe('processor-test', function () {
     });
 
     describe('#createFieldFromProperty()', function () {
-        //single property xml example: '<Properties><Property Label="Severity" Name="severity"><NewValue>3-High</NewValue><OldValue>2-Medium</OldValue></Property></Properties>';
-        //2 properties xml example: '<Properties><Property Label="Severity" Name="severity"><NewValue>3-High</NewValue><OldValue>2-Medium</OldValue></Property><Property Label="Assigned to" Name="owner"><NewValue>Rick</NewValue><OldValue>Bob</OldValue></Property></Properties>';
+		//single property xml example: '<Properties><Property Label="Severity" Name="severity"><NewValue>3-High</NewValue><OldValue>2-Medium</OldValue></Property></Properties>';
         it('regularProperty', function () {
 
             var prop = pr.createFieldFromProperty(createPropertyObject('Severity', 'severity', '3-High', '2-Medium'));
@@ -37,6 +36,7 @@ describe('processor-test', function () {
             assert.equal(prop[0].label, 'Severity', 'label is correct');
             assert.equal(prop[0].name, 'severity', 'name is correct');
         });
+		//single property no old value xml example: '<Properties><Property Label="Severity" Name="severity"><NewValue>3-High</NewValue></Property></Properties>';
         it('noOldValue', function () {
             var prop = pr.createFieldFromProperty(createPropertyObject('Severity', 'severity', '3-High', ''));
             assert.strictEqual(prop.constructor, Array, 'prop must be an array');
@@ -46,13 +46,14 @@ describe('processor-test', function () {
             assert.equal(prop[0].label, 'Severity', 'label is correct');
             assert.equal(prop[0].name, 'severity', 'name is correct');
         });
+		//2 properties xml example: '<Properties><Property Label="Severity" Name="severity"><NewValue>3-High</NewValue><OldValue>2-Medium</OldValue></Property><Property Label="Assigned to" Name="owner"><NewValue>Rick</NewValue><OldValue>Bob</OldValue></Property></Properties>';
         it('twoProperties', function () {
             var p1 = createPropertyObject('Severity', 'severity', '3-High', '2-Medium');
             var p2 = createPropertyObject('Assigned to', 'owner', 'Rick', 'Bob');
             var p = new Object();
-            p.Property = [];
-            p.Property.push(p1.Property[0]);
-            p.Property.push(p2.Property[0]);
+            p = [];
+            p.push(p1[0]);
+            p.push(p2[0]);
             var prop = pr.createFieldFromProperty(p);
             assert.strictEqual(prop.constructor, Array, 'prop must be an array');
             assert.equal(prop.length, 2, 'prop array must have 1 element');
@@ -83,7 +84,7 @@ function createPropertyObject(label, name, newValue, oldValue) {
 
     prop.Property.push(pr1);
 
-    return prop;
+    return prop.Property;
 }
 
 
