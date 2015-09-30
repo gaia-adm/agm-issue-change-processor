@@ -50,7 +50,9 @@ function parseXml (data){
             for(var j = 0; j < result.Audits.Audit[i].Properties.length ; j++){
 				var props = result.Audits.Audit[i].Properties[j];
 				if (props.Property) //Avoid failure in case of empty Properties section
+				{
 					fi.push(createFieldFromProperty(props.Property));
+				}
             }
             auditEvent.fields = fi[0];
 
