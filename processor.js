@@ -48,7 +48,9 @@ function parseXml (data){
             var fi = [];
             //the entire array of Properties, expecting to have length = 1 always
             for(var j = 0; j < result.Audits.Audit[i].Properties.length ; j++){
-                fi.push(createFieldFromProperty(result.Audits.Audit[i].Properties[j]));
+				var props = result.Audits.Audit[i].Properties[j];
+				if (props.Property) //Avoid failure in case of empty Properties section
+					fi.push(createFieldFromProperty(props.Property));
             }
             auditEvent.fields = fi[0];
 
@@ -67,19 +69,19 @@ function parseXml (data){
  * Also property names are set according to https://github.com/gaia-adm/api-data-format
  */
 
-var createFieldFromProperty = function createFieldFromProperty(prop){
+var createFieldFromProperty = function createFieldFromProperty(props){
     var fields = [];
 
-    for(var p = 0; p < prop.Property.length; p++){
+    for(var p = 0; p < props.length; p++){
         var field = {};
 
-        field.label = setIfNotEmpty(prop.Property[p].$.Label);
-        field.name = setIfNotEmpty(prop.Property[p].$.Name);
+        field.label = setIfNotEmpty(props[p].$.Label);
+        field.name = setIfNotEmpty(props[p].$.Name);
         //oldValue can be empty in case of new entity
-        if(prop.Property[p].OldValue) {
-            field.from = setIfNotEmpty(prop.Property[p].OldValue[0]);
+        if(props[p].OldValue) {
+            field.from = setIfNotEmpty(props[p].OldValue[0]);
         }
-        field.to = setIfNotEmpty(prop.Property[p].NewValue[0]);
+        field.to = setIfNotEmpty(props[p].NewValue[0]);
         fields.push(field);
     }
     return fields;
