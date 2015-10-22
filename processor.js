@@ -118,11 +118,19 @@ function getProcessParameters() {
 function readInputStream(callback) {
     console.error(' Input stream received, start reading');
     process.stdin.setEncoding('utf8');
+    var fullInput = '';
     process.stdin.on('readable', function () {
         var chunk = process.stdin.read();
         if (chunk !== null) {
-            console.error(' XML created from the input stream: ' + chunk);
-            callback(chunk);
+            console.error('Next chunk size in characters is: ' + chunk.length);
+            fullInput = fullInput + chunk;
+        }
+    });
+
+    process.stdin.on('end', function(){
+        if(fullInput.length > 0){
+            console.error('XML created from the input stream; size in characters: ' + fullInput.length);
+            callback(fullInput);
         }
     });
 }
