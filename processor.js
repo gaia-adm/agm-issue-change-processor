@@ -17,6 +17,16 @@ if (Object.keys(params).length > 0) {
     process.exit(0);
 }
 
+//For debugging read a file from disk instead of stdin
+/*var fs = require('fs')
+fs.readFile('data.xml', 'utf8', function (err,data) {
+    if (err) {
+        return console.log(err);
+    }
+    console.log('data is:' + data);
+    parseXml(data);
+}); */
+
 readInputStream(parseXml);
 
 function parseXml (data){
@@ -84,6 +94,12 @@ var createFieldFromProperty = function createFieldFromProperty(props){
             field.from = setIfNotEmpty(props[p].OldValue[0]);
         }
         field.to = setIfNotEmpty(props[p].NewValue[0]);
+
+        //newValue can be empty in some cases; we'll set it to none for further handling (as it is mandatory field in our API)
+        if(field.to == undefined) {
+            field.to = 'none';
+        }
+
         fields.push(field);
     }
     return fields;
