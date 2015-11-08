@@ -96,7 +96,7 @@ var createFieldFromProperty = function createFieldFromProperty(props){
         field.to = setIfNotEmpty(props[p].NewValue[0]);
 
         //newValue can be empty in some cases; we'll set it to none for further handling (as it is mandatory field in our API)
-        if(field.to == undefined) {
+        if(field.to === undefined) {
             field.to = 'none';
         }
 
