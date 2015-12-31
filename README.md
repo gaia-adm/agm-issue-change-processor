@@ -1,6 +1,4 @@
-[![](https://badge.imagelayers.io/gaiaadm/agm-issue-change-processor:latest.svg)](https://imagelayers.io/?images=gaiaadm/agm-issue-change-processor:latest 'Get your own badge on imagelayers.io')
-
-*CircleCI:* [![Circle CI](https://circleci.com/gh/gaia-adm/agm-issue-change-processor.svg?style=svg)](https://circleci.com/gh/gaia-adm/agm-issue-change-processor)
+[![Circle CI](https://circleci.com/gh/gaia-adm/agm-issue-change-processor.svg?style=svg)](https://circleci.com/gh/gaia-adm/agm-issue-change-processor) [![Codacy Badge](https://api.codacy.com/project/badge/grade/118a887cdcd94d658daf80e292f3b27d)](https://www.codacy.com/app/alexei-led/agm-issue-change-processor) [![](https://badge.imagelayers.io/gaiaadm/agm-issue-change-processor:latest.svg)](https://imagelayers.io/?images=gaiaadm/agm-issue-change-processor:latest 'Get your own badge on imagelayers.io')
 
 # AGM issue change data processor
 
