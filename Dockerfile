@@ -1,5 +1,8 @@
 FROM gaiaadm/result-processing:latest
 
+ARG http_proxy
+ARG https_proxy
+
 # Bundle app source
 COPY . /src/processors/agm-issue-change-processor
 
@@ -9,4 +12,4 @@ WORKDIR /src/processors/agm-issue-change-processor
 # install required modules
 RUN npm install
 
-RUN grunt --gruntfile /src/processors/agm-issue-change-processor/Gruntfile.js jshint
+RUN grunt --gruntfile Gruntfile.js jshint
