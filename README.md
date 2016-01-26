@@ -10,7 +10,7 @@ Tested with AGM SaaS production (21-Sep-2015)
  - Request example: /qcbin/rest/domains/Default/projects/bp1/audits?query={parent-type[defect];parent-id[>0];id[>123]}&page-size=<PAGE_SIZE>&start-index=<i>&order-by={time[asc]}
  - Response example:
  `
- <?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+ <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
  <Audits TotalResults="2">
      <Audit>
          <Id>225</Id>
@@ -47,7 +47,7 @@ Tested with AGM SaaS production (21-Sep-2015)
  </Audits>
  `
 
-**Output data format** is exactly as specifed [here](https://github.com/gaia-adm/api-data-format)
+**Output data format** is exactly as specified [here](https://github.com/gaia-adm/api-data-format)
 
 
 ## Building
@@ -62,8 +62,8 @@ Execute:
 - For development the entire folder of this project can be copied to result-processing\processors directory and the started by server.js of the result-processing project.
 
 Execute tests:
-- to run unit tests: grunt unit
-- to run code analysis: grunt jshint
+- to run unit tests: `grunt unit`
+- to run code analysis: `grunt jshint`
 
 Limitations:
 - cannot run when RabbitMQ password is empty (common limitations for all data procesors)
