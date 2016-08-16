@@ -23,9 +23,9 @@ test:
     # prepare RabbitMQ for testing the processor
     - docker run -d -e RABBITMQ_PASS="admin" --name rabbitmq gaiaadm/rabbitmq; sleep 10
     # run jshint
-    - docker run --name jshint-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js jshint
+    - docker run --name jshint-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile Gruntfile.js jshint
     # run unit tests
-    - docker run -e AMQ_USER="admin" -e AMQ_PASSWORD="admin" -v "/tmp:/upload" --link rabbitmq:amqserver --name unit-test-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js unit
+    - docker run -e AMQ_USER="admin" -e AMQ_PASSWORD="admin" -v "/tmp:/upload" --link rabbitmq:amqserver --name unit-test-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile Gruntfile.js unit
     - docker cp unit-test-runner:/src/processors/agm-issue-change-processor/unit-test-results.xml $CIRCLE_TEST_REPORTS/nodejs
 deployment:
   continuous:
