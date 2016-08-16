@@ -11,7 +11,11 @@ dependencies:
     # download update_service script
     - curl -LO https://raw.githubusercontent.com/gaia-adm/gaia-fleet/master/update_service.sh && chmod +x update_service.sh
   override:
+    # build develop:test image
+    - docker build -t gaiaadm/agm-issue-change-processor:test --build-arg "NODE=develop" .
+    # build production image
     - docker build -t gaiaadm/agm-issue-change-processor .
+    # tag production image with buid branch and number
     - docker tag gaiaadm/agm-issue-change-processor gaiaadm/agm-issue-change-processor:$CIRCLE_BUILD_NUM-$CIRCLE_BRANCH
     - docker tag gaiaadm/agm-issue-change-processor gaiaadm/agm-issue-change-processor:$CIRCLE_BRANCH
 test:
@@ -19,9 +23,9 @@ test:
     # prepare RabbitMQ for testing the processor
     - docker run -d -e RABBITMQ_PASS="admin" --name rabbitmq gaiaadm/rabbitmq; sleep 10
     # run jshint
-    - docker run --name jshint-runner gaiaadm/agm-issue-change-processor grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js jshint
+    - docker run --name jshint-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js jshint
     # run unit tests
-    - docker run -e AMQ_USER="admin" -e AMQ_PASSWORD="admin" -v "/tmp:/upload" --link rabbitmq:amqserver --name unit-test-runner gaiaadm/agm-issue-change-processor:$BUILD_TAG grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js unit
+    - docker run -e AMQ_USER="admin" -e AMQ_PASSWORD="admin" -v "/tmp:/upload" --link rabbitmq:amqserver --name unit-test-runner gaiaadm/agm-issue-change-processor:test grunt --gruntfile processors/agm-issue-change-processor/Gruntfile.js unit
     - docker cp unit-test-runner:/src/processors/agm-issue-change-processor/unit-test-results.xml $CIRCLE_TEST_REPORTS/nodejs
 deployment:
   continuous:

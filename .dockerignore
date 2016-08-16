@@ -1,4 +1,6 @@
 .git
+.gitignore
 agm-issue-change-processor.service
 README.md
 circle.yml
+node_modules
